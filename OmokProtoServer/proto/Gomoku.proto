@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package gomoku;
+
+option go_package = "OmokProtoServer/pkg/messages";
+
+message Position {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message GameState {
+  repeated int32 board = 1;  // 0: empty, 1: black, 2: white
+  int32 current_turn = 2;    // 1: black, 2: white
+  bool is_game_over = 3;
+  int32 winner = 4;          // 0: none, 1: black, 2: white
+}
+
+message PlaceStone {
+  string player_id = 1;
+  Position position = 2;
+}
+
+message GameStart {
+  string black_player = 1;
+  string white_player = 2;
+}
+
+message RequestGame {
+  string player_id = 1;
+}
+
+message LoginMessage {
+  string player_id = 1;
+}
+
+message LogoutMessage {
+  string player_id = 1;
+}
+
+message GomokuMessage {
+  oneof message {
+    GameState game_state = 1;
+    PlaceStone place_stone = 2;
+    GameStart game_start = 3;
+    RequestGame request_game = 4;
+    LoginMessage login = 5;
+    LogoutMessage logout = 6;
+  }
+}
